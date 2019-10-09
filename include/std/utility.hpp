@@ -65,6 +65,4 @@ using make_integer_sequence = typename make_integer_sequence_impl<T, N>::type;
 
 }
 
-#endif // AVRCPP_HAS_STDLIB
-
 #endif // _AVRCPP_STD_UTILITY_H_

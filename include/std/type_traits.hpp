@@ -329,6 +329,4 @@ struct aligned_storage {
 
 }
 
-#endif // AVRCPP_HAS_STDLIB
-
 #endif

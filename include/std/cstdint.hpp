@@ -16,6 +16,4 @@ namespace std
     using uint64_t = ::uint64_t;
 }
 
-#endif
-
 #endif // _AVRCPP_STD_CSTDINT_HPP_

@@ -94,7 +94,7 @@ namespace detail
 template<int Index, int Size, class Type, class Tuple>
 struct index_of
 {
-    using type = typename toolbox::type_of<Index, Tuple>::type;
+    using type = typename std::type_of<Index, Tuple>::type;
 
     using value_t =
         std::conditional_t<
