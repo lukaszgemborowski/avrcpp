@@ -1,11 +1,5 @@
-#ifndef _TOOLBOX_STD_TYPE_TRAITS_H_
-#define _TOOLBOX_STD_TYPE_TRAITS_H_
-
-#include <toolbox/config.h>
-
-#ifdef TOOLBOX_HAS_STDLIB
-    #include <type_traits>
-#else
+#ifndef _AVRCPP_STD_TYPE_TRAITS_H_
+#define _AVRCPP_STD_TYPE_TRAITS_H_
 
 #include "cstddef.hpp"
 
@@ -335,6 +329,6 @@ struct aligned_storage {
 
 }
 
-#endif // TOOLBOX_HAS_STDLIB
+#endif // AVRCPP_HAS_STDLIB
 
 #endif

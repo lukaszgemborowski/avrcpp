@@ -1,9 +1,5 @@
-#ifndef _TOOLBOX_STD_CSTDINT_HPP_
-#define _TOOLBOX_STD_CSTDINT_HPP_
-
-#ifdef TOOLBOX_HAS_STDLIB
-    #include <cstdint>
-#else
+#ifndef _AVRCPP_STD_CSTDINT_HPP_
+#define _AVRCPP_STD_CSTDINT_HPP_
 
 #include <stdint.h>
 
@@ -22,4 +18,4 @@ namespace std
 
 #endif
 
-#endif // _TOOLBOX_STD_CSTDINT_HPP_
+#endif // _AVRCPP_STD_CSTDINT_HPP_

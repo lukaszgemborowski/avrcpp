@@ -1,11 +1,5 @@
-#ifndef _TOOLBOX_STD_UTILITY_H_
-#define _TOOLBOX_STD_UTILITY_H_
-
-#include <toolbox/config.h>
-
-#ifdef TOOLBOX_HAS_STDLIB
-    #include <utility>
-#else
+#ifndef _AVRCPP_STD_UTILITY_H_
+#define _AVRCPP_STD_UTILITY_H_
 
 #include "type_traits.hpp"
 
@@ -71,6 +65,6 @@ using make_integer_sequence = typename make_integer_sequence_impl<T, N>::type;
 
 }
 
-#endif // TOOLBOX_HAS_STDLIB
+#endif // AVRCPP_HAS_STDLIB
 
-#endif // _TOOLBOX_STD_UTILITY_H_
+#endif // _AVRCPP_STD_UTILITY_H_
