@@ -1,5 +1,14 @@
 #!/bin/bash
 
+set -e
+
+if [ -z "$1" ]; then
+    echo "you need to pass install dir of the toolchain"
+    exit 1
+fi
+
+PREFIX_DIR=$1
+
 wget https://sunsite.icm.edu.pl/pub/gnu/binutils/binutils-2.32.tar.xz
 wget https://sunsite.icm.edu.pl/pub/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.xz
 wget http://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2
@@ -10,11 +19,13 @@ tar xvf avr-libc-2.0.0.tar.bz2
 mkdir -p build/binutils
 mkdir -p build/gcc
 cd build/binutils
-../../binutils-2.32/configure --prefix=/home/icek/opt --target=avr --disable-nls
+../../binutils-2.32/configure --prefix=$PREFIX_DIR --target=avr --disable-nls
+
+# TODO: run gmake on FreeBSD
 make -j4
 make install
 cd ../gcc
-../../gcc-9.2.0/configure --prefix=/home/icek/opt --target=avr --enable-languages=c,c++ \
+../../gcc-9.2.0/configure --prefix=$PREFIX_DIR --target=avr --enable-languages=c,c++ \
     --disable-nls --disable-libssp --with-dwarf2
 make -j4
 make install
