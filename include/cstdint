@@ -1,0 +1,6 @@
+#ifndef AVRCPP_CSTDINT
+#define AVRCPP_CSTDINT
+
+#include "std/cstdint.hpp"
+
+#endif // AVRCPP_CSTDINT

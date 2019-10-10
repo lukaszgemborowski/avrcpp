@@ -1,0 +1,6 @@
+#ifndef AVRCPP_NEW
+#define AVRCPP_NEW
+
+#include "std/new.hpp"
+
+#endif // AVRCPP_NEW

@@ -1,0 +1,6 @@
+#ifndef AVRCPP_CSTDDEF
+#define AVRCPP_CSTDDEF
+
+#include "std/cstddef.hpp"
+
+#endif

@@ -1,0 +1,6 @@
+#ifndef AVRCPP_TUPLE
+#define AVRCPP_TUPLE
+
+#include "std/tuple.hpp"
+
+#endif // AVRCPP_TUPLE

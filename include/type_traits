@@ -1,0 +1,6 @@
+#ifndef AVRCPP_TYPE_TRAITS
+#define AVRCPP_TYPE_TRAITS
+
+#include "std/type_traits.hpp"
+
+#endif // AVRCPP_TYPE_TRAITS

@@ -1,0 +1,6 @@
+#ifndef AVRCPP_UTILITY
+#define AVRCPP_UTILITY
+
+#include "std/utility.hpp"
+
+#endif // AVRCPP_UTILITY
