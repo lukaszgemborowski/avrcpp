@@ -17,7 +17,7 @@ target_include_directories(
 target_compile_features(
     avrcpp
     PUBLIC
-    cxx_std_14
+    cxx_std_17
 )
 
 add_subdirectory(
