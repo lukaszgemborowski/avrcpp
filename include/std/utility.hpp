@@ -63,6 +63,12 @@ template<class T> struct make_integer_sequence_impl<T, 1> : integer_sequence<T, 
 template<class T, T N>
 using make_integer_sequence = typename make_integer_sequence_impl<T, N>::type;
 
+template<size_t... I>
+using index_sequence = integer_sequence<size_t, I...>;
+
+template<size_t N>
+using make_index_sequence = make_integer_sequence<size_t, N>;
+
 }
 
 #endif // _AVRCPP_STD_UTILITY_H_
