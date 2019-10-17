@@ -2,6 +2,7 @@
 #define AVRCPP_TESTING_HPP
 
 #include <tuple>
+#include <stdio.h>
 
 namespace avrcpp
 {
@@ -22,27 +23,27 @@ struct result {
         , succeed {false}
     {}
 
-    result (const char *e, bool s)
-        : expression {e}
+    result (const char *tc, const char *e, bool s)
+        : test {tc}
+        , expression {e}
         , succeed {s}
     {}
 
+    const char *test;
     const char *expression;
     bool succeed;
 };
 
+struct tests_base
+{
+    tests_base();
+};
+
 template<class... TestCases>
-struct tests {
+struct tests : tests_base {
     tests (TestCases... tcs)
         : cases {tcs...}
-    {}
-
-    template<std::size_t... I>
-    void run_impl(std::index_sequence<I...>)
     {
-        result r[] = {
-            std::get<I>(cases).fun() ...
-        };
     }
 
     void run()
@@ -50,6 +51,32 @@ struct tests {
         run_impl(std::make_index_sequence<decltype(cases)::size::value>{});
     }
 
+private:
+    template<std::size_t I>
+    result run_one ()
+    {
+        auto r = std::get<I>(cases).fun();
+        return result {
+            std::get<I>(cases).name,
+            r.expression,
+            r.succeed
+        };
+    }
+
+    template<std::size_t... I>
+    void run_impl(std::index_sequence<I...>)
+    {
+        result r[] = {run_one<I>() ...};
+
+        for (const auto &e : r) {
+            printf("TC: %s %s %s\n",
+                e.test,
+                (e.succeed ? "OK" : "FAIL"),
+                (e.succeed ? "" : e.expression));
+        }
+    }
+
+private:
     std::tuple<TestCases...> cases;
 };
 
@@ -67,7 +94,7 @@ struct tc {
 
 #define CHECK(exp) \
     if (!(exp)) { \
-        return result {#exp, false}; \
+        return fail {#exp}; \
     }
 
 } // namespace avrcpp

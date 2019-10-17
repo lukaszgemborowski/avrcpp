@@ -13,7 +13,7 @@ tests t1 {
         int x = 0;
         int y = 1;
 
-        CHECK(x == 1);
+        CHECK(x == 0);
         CHECK(x == y);
 
         return success {};

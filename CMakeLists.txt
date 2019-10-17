@@ -5,7 +5,7 @@ project(avrcpp)
 add_library(
     avrcpp
     STATIC
-    src/dummy.cxx
+    src/testing.cxx
 )
 
 target_include_directories(
