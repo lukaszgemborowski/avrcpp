@@ -97,6 +97,9 @@ struct tc {
         return fail {#exp}; \
     }
 
+#define TC_END() \
+    return success {};
+
 } // namespace avrcpp
 
 #endif // AVRCPP_TESTING_HPP
