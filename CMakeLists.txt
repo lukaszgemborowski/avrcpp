@@ -21,5 +21,5 @@ target_compile_features(
 )
 
 add_subdirectory(
-    test/1
+    test
 )
