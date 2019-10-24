@@ -55,9 +55,9 @@ private:
     template<std::size_t I>
     result run_one ()
     {
-        auto r = std::get<I>(cases).fun();
+        auto r = std::get<I>(cases).run();
         return result {
-            std::get<I>(cases).name,
+            std::get<I>(cases).name(),
             r.expression,
             r.succeed
         };
@@ -69,9 +69,9 @@ private:
         result r[] = {run_one<I>() ...};
 
         for (const auto &e : r) {
-            printf("TC: %s %s %s\n",
+            printf("%s: \"%s\" (%s)\n",
+                (e.succeed ? "[  OK  ]" : "[ FAIL ]"),
                 e.test,
-                (e.succeed ? "OK" : "FAIL"),
                 (e.succeed ? "" : e.expression));
         }
     }
@@ -83,13 +83,24 @@ private:
 template<class T>
 struct tc {
     tc(const char *name, T lambda)
-        : name {name}
-        , fun {lambda}
+        : name_ {name}
+        , fun_ {lambda}
     {
     }
 
-    const char *name;
-    T fun;
+    auto run() const
+    {
+        return fun_();
+    }
+
+    auto name() const
+    {
+        return name_;
+    }
+
+private:
+    const char *name_;
+    T fun_;
 };
 
 #define CHECK(exp) \

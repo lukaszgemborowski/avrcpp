@@ -1,4 +1,5 @@
 #include "avrcpp/testing.hpp"
+#include <string.h>
 
 using namespace avrcpp;
 
@@ -34,6 +35,39 @@ auto t1 = tests {
         int x = 0;
         int y = 1;
         CHECK(x == y);
+
+        TC_END();
+    }},
+
+    tc {"can create result from success", []() -> result {
+        result r {success{}};
+
+        CHECK(r.succeed);
+
+        TC_END();
+    }},
+
+    tc {"can create result from fail", []() -> result {
+        result r {fail{"fubar"}};
+
+        CHECK(r.succeed == false);
+        CHECK(r.test == nullptr);
+        CHECK(strcmp(r.expression, "fubar") == 0);
+
+        TC_END();
+    }},
+
+    tc {"can create and run test case", []() -> result {
+        auto ran = false;
+        auto t = tc {
+            "foo",
+            [&]() {
+                ran = true;
+            }
+        };
+
+        t.run();
+        CHECK(ran);
 
         TC_END();
     }}
