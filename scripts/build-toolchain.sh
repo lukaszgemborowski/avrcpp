@@ -48,12 +48,17 @@ mkdir -p build/libc
 
 cd build/binutils
 ../../$DIR_BINUTILS/configure --prefix=$PREFIX_DIR --target=avr --disable-nls
-
 # TODO: run gmake on FreeBSD
 make -j4
 make install
+
 cd ../gcc
 ../../$DIR_GCC/configure --prefix=$PREFIX_DIR --target=avr --enable-languages=c,c++ \
     --disable-nls --disable-libssp --with-dwarf2
+make -j4
+make install
+
+cd ../libc
+PATH=$PREFIX_DIR/bin:$PATH ../../$DIR_LIBC/configure --prefix=$PREFIX_DIR --build=`../../$DIR_LIBC/config.guess` --host=avr
 make -j4
 make install
