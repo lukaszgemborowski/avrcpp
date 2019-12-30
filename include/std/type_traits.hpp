@@ -238,7 +238,7 @@ constexpr bool is_same_v = is_same<T, U>::value;
 template<typename T>
 struct add_rvalue_reference
 {
-   using gtype = T&&;
+   using type = T&&;
 };
 
 template<typename T>
