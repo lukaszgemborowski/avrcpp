@@ -32,6 +32,7 @@ struct tuple_storage<std::integer_sequence<std::size_t, Indices...>, Types...>
     : tuple_node<Indices, Types>...
 {
     constexpr tuple_storage() {}
+    constexpr tuple_storage(tuple_storage &&) = default;
 
     template<class... Items>
     constexpr tuple_storage(Items&&... items)
@@ -47,6 +48,7 @@ struct tuple
 
 
     constexpr tuple() {}
+    constexpr tuple(tuple &&) = default;
 
     template<class... Items>
     constexpr tuple(Items&&... items)
@@ -162,7 +164,7 @@ struct t_type<std::tuple<A...>, std::tuple<B...>>
     static constexpr auto b_size = sizeof...(B);
 
     template<std::size_t I>
-    static auto get_one(a_type &&a, b_type &&b)
+    static auto&& get_one(a_type &&a, b_type &&b)
     {
         if constexpr (I < a_size)
             return std::get<I>(a);
@@ -219,7 +221,7 @@ auto tuple_cat(A &&a, Ts&&... tuples)
 
     return detail::t_type<A, tail_result_t>::cat(
         std::forward<A>(a),
-        my_tuple_cat(std::forward<Ts>(tuples)...)
+        tuple_cat(std::forward<Ts>(tuples)...)
     );
 }
 
