@@ -139,6 +139,90 @@ constexpr auto make_tuple(Args&&... args)
     return tuple<std::decay_t<Args>...>(std::forward<Args>(args)...);
 }
 
+template<class T>
+struct tuple_size;
+
+template<class... Types>
+struct tuple_size<std::tuple<Types...>>
+    : std::integral_constant<std::size_t, sizeof...(Types)>
+{};
+
+namespace detail
+{
+template<class... A>
+struct t_type;
+
+template<class... A, class... B>
+struct t_type<std::tuple<A...>, std::tuple<B...>>
+{
+    using result_t = std::tuple<A..., B...>;
+    using a_type = std::tuple<A...>;
+    static constexpr auto a_size = sizeof...(A);
+    using b_type = std::tuple<B...>;
+    static constexpr auto b_size = sizeof...(B);
+
+    template<std::size_t I>
+    static auto get_one(a_type &&a, b_type &&b)
+    {
+        if constexpr (I < a_size)
+            return std::get<I>(a);
+        if constexpr (I >= a_size)
+            return std::get<I - a_size>(b);
+    }
+
+    template<std::size_t... Idx>
+    static auto cat(a_type &&a, b_type &&b, std::index_sequence<Idx...>)
+    {
+        return result_t {
+                get_one<Idx>(
+                std::forward<a_type>(a),
+                std::forward<b_type>(b)
+            )...
+        };
+    }
+
+    static auto cat(a_type &&a, b_type &&b)
+    {
+        return cat(
+            std::forward<a_type>(a),
+            std::forward<b_type>(b),
+            std::make_index_sequence<a_size + b_size>{}
+        );
+    }
+};
+
+template<class A>
+struct t_type<A>
+{
+    using result_t = A;
+};
+
+template<class A, class... Tail>
+struct t_type<A, Tail...>
+{
+    using result_t =
+        typename t_type<A, typename t_type<Tail...>::result_t>::result_t;
+};
+
+} // namespace detail
+
+template<class A>
+auto tuple_cat(A &&a)
+{
+    return a;
+}
+
+template<class A, class... Ts>
+auto tuple_cat(A &&a, Ts&&... tuples)
+{
+    using tail_result_t = typename detail::t_type<Ts...>::result_t;
+
+    return detail::t_type<A, tail_result_t>::cat(
+        std::forward<A>(a),
+        my_tuple_cat(std::forward<Ts>(tuples)...)
+    );
+}
+
 } // namespace std
 
 #endif // _AVRCPP_CONTAINER_TUPLE_HPP_
