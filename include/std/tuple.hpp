@@ -19,6 +19,9 @@ struct tuple_node
         : value{}
     {}
 
+    constexpr tuple_node(tuple_node &&) = default;
+    constexpr tuple_node(const tuple_node &) = default;
+
     T value;
 };
 
@@ -33,6 +36,11 @@ struct tuple_storage<std::integer_sequence<std::size_t, Indices...>, Types...>
 {
     constexpr tuple_storage() {}
     constexpr tuple_storage(tuple_storage &&) = default;
+    constexpr tuple_storage(const tuple_storage &) = default;
+    constexpr tuple_storage(tuple_storage &s)
+        : tuple_node<Indices, Types>(
+            static_cast<tuple_node<Indices, Types> &>(s).value)...
+    {}
 
     template<class... Items>
     constexpr tuple_storage(Items&&... items)
@@ -46,9 +54,12 @@ struct tuple
     tuple_storage<std::make_integer_sequence<std::size_t, sizeof...(Types)>, Types...> storage;
     using size = std::integral_constant<std::size_t, sizeof...(Types)>;
 
-
     constexpr tuple() {}
     constexpr tuple(tuple &&) = default;
+    constexpr tuple(const tuple &) = default;
+    constexpr tuple(tuple &t)
+        : storage {t.storage}
+    {}
 
     template<class... Items>
     constexpr tuple(Items&&... items)
@@ -183,7 +194,8 @@ struct t_type<std::tuple<A...>, std::tuple<B...>>
         };
     }
 
-    static auto cat(a_type &&a, b_type &&b)
+    template<class T, class U>
+    static auto cat(T &&a, U &&b)
     {
         return cat(
             std::forward<a_type>(a),
@@ -211,15 +223,16 @@ struct t_type<A, Tail...>
 template<class A>
 auto tuple_cat(A &&a)
 {
-    return a;
+    using result_t = std::decay_t<A>;
+    return result_t{a};
 }
 
 template<class A, class... Ts>
 auto tuple_cat(A &&a, Ts&&... tuples)
 {
-    using tail_result_t = typename detail::t_type<Ts...>::result_t;
+    using tail_result_t = typename detail::t_type<std::decay_t<Ts>...>::result_t;
 
-    return detail::t_type<A, tail_result_t>::cat(
+    return detail::t_type<std::decay_t<A>, tail_result_t>::cat(
         std::forward<A>(a),
         tuple_cat(std::forward<Ts>(tuples)...)
     );
