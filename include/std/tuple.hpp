@@ -160,6 +160,17 @@ struct tuple_size<std::tuple<Types...>>
     : std::integral_constant<std::size_t, sizeof...(Types)>
 {};
 
+template<class T>
+constexpr auto tuple_size_v = tuple_size<T>::value;
+
+template<std::size_t I, class T>
+struct tuple_element {
+    using type = decltype(get<T>(declval<T>()));
+};
+
+template<std::size_t I, class T>
+using tuple_element_t = typename tuple_element<I, T>::type;
+
 namespace detail
 {
 template<class... A>
