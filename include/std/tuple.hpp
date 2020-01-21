@@ -163,12 +163,12 @@ struct tuple_size<std::tuple<Types...>>
 template<class T>
 constexpr auto tuple_size_v = tuple_size<T>::value;
 
-template<std::size_t I, class T>
+template<int I, class T>
 struct tuple_element {
-    using type = decltype(get<T>(declval<T>()));
+    using type = typename type_of<I, T>::type;
 };
 
-template<std::size_t I, class T>
+template<int I, class T>
 using tuple_element_t = typename tuple_element<I, T>::type;
 
 namespace detail
