@@ -2,5 +2,6 @@
 #define AVRCPP_TUPLE
 
 #include "std/tuple.hpp"
+#include "std/make-from-tuple.hpp"
 
 #endif // AVRCPP_TUPLE
