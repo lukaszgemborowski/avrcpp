@@ -58,6 +58,8 @@ cd ../gcc
 make -j4
 make install
 
+PATH=$PATH:$PREFIX_DIR/bin
+
 cd ../libc
 PATH=$PREFIX_DIR/bin:$PATH ../../$DIR_LIBC/configure --prefix=$PREFIX_DIR --build=`../../$DIR_LIBC/config.guess` --host=avr
 make -j4
