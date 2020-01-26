@@ -1,0 +1,4 @@
+#ifndef AVRCPP_LIMITS
+#define AVRCPP_LIMITS
+#include "std/limits.hpp"
+#endif // AVRCPP_LIMITS
