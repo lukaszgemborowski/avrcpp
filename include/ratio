@@ -1,0 +1,6 @@
+#ifndef AVRCPP_RATIO
+#define AVRCPP_RATIO
+
+#include "std/ratio.hpp"
+
+#endif // AVRCPP_RATIO

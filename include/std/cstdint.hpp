@@ -14,6 +14,8 @@ namespace std
     using uint16_t = ::uint16_t;
     using uint32_t = ::uint32_t;
     using uint64_t = ::uint64_t;
+
+    using intmax_t = uint64_t;
 }
 
 #endif // _AVRCPP_STD_CSTDINT_HPP_
