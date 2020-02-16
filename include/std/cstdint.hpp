@@ -15,7 +15,7 @@ namespace std
     using uint32_t = ::uint32_t;
     using uint64_t = ::uint64_t;
 
-    using intmax_t = uint64_t;
+    using intmax_t = long long int;
 }
 
 #endif // _AVRCPP_STD_CSTDINT_HPP_
