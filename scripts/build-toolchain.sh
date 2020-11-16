@@ -8,11 +8,12 @@ if [ -z "$1" ]; then
 fi
 
 PREFIX_DIR=$1
+JOBS=4
 
-DIR_BINUTILS=binutils-2.32
+DIR_BINUTILS=binutils-2.35
 FILE_BINUTILS=$DIR_BINUTILS.tar.xz
 
-DIR_GCC=gcc-9.2.0
+DIR_GCC=gcc-10.2.0
 FILE_GCC=$DIR_GCC.tar.xz
 
 DIR_LIBC=avr-libc-2.0.0
@@ -23,7 +24,7 @@ if [ ! -f $FILE_BINUTILS ]; then
 fi
 
 if [ ! -f $FILE_GCC ]; then
-    wget https://sunsite.icm.edu.pl/pub/gnu/gcc/gcc-9.2.0/$FILE_GCC
+    wget https://sunsite.icm.edu.pl/pub/gnu/gcc/gcc-10.2.0/$FILE_GCC
 fi
 
 if [ ! -f $FILE_LIBC ]; then
@@ -49,18 +50,18 @@ mkdir -p build/libc
 cd build/binutils
 ../../$DIR_BINUTILS/configure --prefix=$PREFIX_DIR --target=avr --disable-nls
 # TODO: run gmake on FreeBSD
-make -j4
+make -j$JOBS
 make install
 
 cd ../gcc
 ../../$DIR_GCC/configure --prefix=$PREFIX_DIR --target=avr --enable-languages=c,c++ \
     --disable-nls --disable-libssp --with-dwarf2
-make -j4
+make -j$JOBS
 make install
 
 PATH=$PATH:$PREFIX_DIR/bin
 
 cd ../libc
 PATH=$PREFIX_DIR/bin:$PATH ../../$DIR_LIBC/configure --prefix=$PREFIX_DIR --build=`../../$DIR_LIBC/config.guess` --host=avr
-make -j4
+make -j$JOBS
 make install
